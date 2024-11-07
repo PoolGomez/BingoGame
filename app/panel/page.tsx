@@ -5,7 +5,7 @@ import nookies from "nookies";
 import { useEffect } from "react";
 
 
-export default function page() {
+export default function PanelPage() {
 
   const router = useRouter();
 

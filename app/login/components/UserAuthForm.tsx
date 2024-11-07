@@ -23,16 +23,15 @@ export function UserAuthForm(props: LoginFormProps) {
 
   const handleSubmit = (event: FormEvent)=>{
     event.preventDefault();
-    onLogin(email,password)
-  }
-
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault()
-    setIsLoading(true)
-
-    setTimeout(() => {
+    try {
+      setIsLoading(true);
+      onLogin(email,password);
+    } catch (error) {
+      console.log(error)
+    }finally{
       setIsLoading(false)
-    }, 3000)
+    }
+    
   }
 
   const redirectHome=()=>{

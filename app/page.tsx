@@ -1,5 +1,4 @@
 "use client";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { LogIn, Play } from "lucide-react";
 import { Footer } from "@/components/Footer";
@@ -7,8 +6,6 @@ import { BingoLettersAnimated } from "@/components/BingoLettersAnimated";
 import Image from "next/image";
 
 export default function Home() {
-  const texto = "BINGO";
-  const letters = texto.split("");
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
