@@ -2,11 +2,24 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { toast } from "@/hooks/use-toast";
 
 import { cn } from "@/lib/utils";
 import { CreateNumberBingoUseCase } from "@/src/application/usecases/CreateNumberBingoUseCase";
+import { DeleteNumberBingoUseCase } from "@/src/application/usecases/DeleteNumberBingoUseCase";
 import { NumberBingo } from "@/src/domain/entities/NumberBingo";
 import { FirebaseNumberBingoRepository } from "@/src/infrastructure/repositories/FirebaseNumberBingoRepository";
+import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 
 export function PanelBoard({ drawnNumbers }: { drawnNumbers: NumberBingo[] }) {
@@ -40,6 +53,29 @@ export function PanelBoard({ drawnNumbers }: { drawnNumbers: NumberBingo[] }) {
       console.log(error);
     }
   };
+  const handleSubmitDelete = async (number: number) => {
+    try {
+      setLoading(true);
+      const numberBingoRepository = new FirebaseNumberBingoRepository();
+      const deleteNumberBingoUseCase = new DeleteNumberBingoUseCase(
+        numberBingoRepository
+      );
+      await deleteNumberBingoUseCase.execute(number);
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Error",
+        description: "No se pudo restablecer el numero",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+      toast({
+        title: "Correcto",
+        description: "Se restablecio el numero exitosamente",
+      });
+    }
+  };
 
   return (
     <Card className="p-1 w-full h-auto flex items-center justify-center">
@@ -58,10 +94,51 @@ export function PanelBoard({ drawnNumbers }: { drawnNumbers: NumberBingo[] }) {
                     className={cn(
                       "h-12 flex items-center justify-center rounded text-2xl font-medium transition-colors",
 
-                      "bg-red-600 text-primary-foreground"
+                      "text-primary-foreground"
                     )}
                   >
-                    {number}
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button
+                          className="h-full w-full text-2xl"
+                          variant={"destructive"}
+                        >
+                          {number}
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[625px]">
+                        <DialogHeader>
+                          <DialogTitle className="text-center">
+                            ¿Está seguro?
+                          </DialogTitle>
+                          <DialogDescription className="text-center">
+                            Que desea restablecer el numero{" "}
+                            <span className="font-bold">{number}</span>
+                          </DialogDescription>
+                        </DialogHeader>
+
+                        <DialogFooter className="sm:justify-center">
+                          <Button
+                            variant="destructive"
+                            disabled={loading}
+                            onClick={async () =>
+                              await handleSubmitDelete(number)
+                            }
+                          >
+                            {loading && (
+                              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                            )}
+                            Si
+                          </Button>
+
+                          <DialogClose asChild>
+                            <Button type="button" variant="secondary">
+                              No
+                            </Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 ) : (
                   <div

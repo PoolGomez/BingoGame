@@ -1,6 +1,6 @@
 import { NumberBingo } from "@/src/domain/entities/NumberBingo";
 import { NumberBingoRepository } from "@/src/domain/repositories/NumberBingoRepository";
-import { addDoc, collection, deleteDoc, doc, DocumentData, getDocs, onSnapshot, orderBy, query, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, DocumentData, getDocs, onSnapshot, orderBy, query, serverTimestamp, where } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 export class FirebaseNumberBingoRepository implements NumberBingoRepository{
@@ -27,9 +27,14 @@ export class FirebaseNumberBingoRepository implements NumberBingoRepository{
         return false;
     }
 
-    async delete(id: string): Promise<void> {
-        const docRef = doc(this.collectionRef, id);
-        await deleteDoc(docRef);
+    async delete(number: number): Promise<void> {
+
+        const q = query(this.collectionRef, where ("number","==",number));
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach(async (document) =>{
+            await deleteDoc(doc(this.collectionRef, document.id));
+        })
     }
 
     subscribeToNumbers(callback: (numbers: NumberBingo[]) => void): () => void {

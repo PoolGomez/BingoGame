@@ -2,7 +2,7 @@ import { NumberBingoRepository } from "@/src/domain/repositories/NumberBingoRepo
 
 export class DeleteNumberBingoUseCase{
     constructor(private numberBingoRepository: NumberBingoRepository){}
-    async execute(id: string): Promise<void>{
-        await this.numberBingoRepository.delete(id)
+    async execute(number: number): Promise<void>{
+        await this.numberBingoRepository.delete(number)
     }
 }
