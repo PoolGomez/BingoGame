@@ -8,27 +8,75 @@ import { setCookie } from "nookies";
 import { BingoLettersAnimated } from "@/components/BingoLettersAnimated";
 import Image from "next/image";
 import { UserAuthForm } from "./components";
+import { toast } from "@/hooks/use-toast";
+import { useTransition } from "react";
 
 const authRepository = new AuthRepository();
 const loginUseCase = new LoginUseCase(authRepository);
 
+interface AuthError extends Error {
+  code?: string; // La propiedad code es opcional
+}
+
 export default function AuthenticationPage() {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition()
 
   const handleLogin = async (email: string, password: string) => {
-    try {
-      const user = await loginUseCase.execute(email, password);
-      const token = await user.getIdToken();
-
-      console.log("[token]", token);
-      setCookie(null, "token", token, { maxAge: 30 * 24 * 60 * 60, path: "/" });
-
-      router.push("/panel");
-      console.log("login correcto");
-    } catch (error) {
-      console.log(error);
-    }
+    startTransition(async ()=>{
+      try {
+        const user = await loginUseCase.execute(email, password);
+        const token = await user.getIdToken();
+        // console.log("[user]",user)
+        if(!user){
+          toast({
+            title:"Error",
+            description:"Credenciales Incorrectas",
+            variant:"destructive"
+          })
+        }else{
+  
+          setCookie(null, "token", token, { maxAge: 30 * 24 * 60 * 60, path: "/" });
+  
+          router.push("/panel");
+          
+          // toast({
+          //   title:"Ok",
+          //   description:"Login Correcto",
+          // })
+        }
+        
+      } catch (error: unknown) {
+        console.log(error)
+        // Verificar si el error es una instancia de Error
+        if (isAuthError(error)) {
+          if (error.code === "auth/invalid-credential") {
+            toast({
+              title: "❌ Error",
+              description: "Credenciales Inválidas",
+            });
+          } else {
+            // Manejo de otros errores
+            toast({
+              title: "❌ Error",
+              description: error.message,
+            });
+          }
+        } else {
+          // Manejo de errores desconocidos
+          toast({
+            title: "❌ Error",
+            description: "Ocurrió un error desconocido.",
+          });
+        }
+        
+      }
+    })
+    
   };
+  function isAuthError(error: unknown): error is AuthError {
+    return (error as AuthError).code !== undefined;
+  }
 
   return (
     <>
@@ -77,7 +125,7 @@ export default function AuthenticationPage() {
                 Ingrese su email y su contraseña para entrar
               </p>
             </div>
-            <UserAuthForm onLogin={handleLogin} />
+            <UserAuthForm onLogin={handleLogin} isPending={isPending} />
             
           </div>
           

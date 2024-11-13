@@ -10,11 +10,13 @@ import { useRouter } from "next/navigation"
 
 type LoginFormProps = {
   onLogin:(email: string, passwortd: string) => void;
+  isPending: boolean
 }
 
 export function UserAuthForm(props: LoginFormProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const {onLogin} = props;
+  // const [isLoading, setIsLoading] = useState<boolean>(false)
+  // const [isPending, startTransition] = useTransition();
+  const {onLogin,isPending} = props;
 
   const router = useRouter()
 
@@ -22,15 +24,16 @@ export function UserAuthForm(props: LoginFormProps) {
   const [password, setPassword] = useState("");
 
   const handleSubmit = (event: FormEvent)=>{
-    event.preventDefault();
-    try {
-      setIsLoading(true);
-      onLogin(email,password);
-    } catch (error) {
-      console.log(error)
-    }finally{
-      setIsLoading(false)
-    }
+    
+    
+      event.preventDefault();
+      try {
+        onLogin(email,password);
+      } catch (error) {
+        console.log(error)
+      }
+    
+    
     
   }
 
@@ -56,7 +59,8 @@ export function UserAuthForm(props: LoginFormProps) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              disabled={isLoading}
+              // disabled={isLoading}
+              disabled={isPending}
             />
           </div>
 
@@ -73,15 +77,17 @@ export function UserAuthForm(props: LoginFormProps) {
               autoCorrect="off"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              disabled={isLoading}
+              // disabled={isLoading}
+              disabled={isPending}
             />
           </div>
 
 
-          <Button type="submit" disabled={isLoading}>
-            {isLoading && (
+          <Button type="submit" disabled={isPending}>
+            {isPending && (
               <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
             )}
+            
             Ingresar
           </Button>
         </div>
@@ -96,8 +102,8 @@ export function UserAuthForm(props: LoginFormProps) {
           </span>
         </div>
       </div>
-        <Button variant="outline" type="button" disabled={isLoading} onClick={redirectHome}>
-          {isLoading ? (
+        <Button variant="outline" type="button" disabled={isPending} onClick={redirectHome}>
+          {isPending ? (
             <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             <ArrowLeft className="mr-2 h-4 w-4" />
