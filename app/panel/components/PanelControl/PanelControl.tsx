@@ -9,6 +9,7 @@ import { SubscribeToNumbersUseCase } from '@/src/application/usecases/SubscribeT
 import { ResetButton } from './ResetButton';
 import { DropDownMenuUser } from './DropDownMenuUser';
 import { PanelBoard } from './PanelBoard';
+import { BingoBoard } from '@/app/game/components';
 
 
 
@@ -44,12 +45,12 @@ export function PanelControl() {
   return (
  
 
-    <div className="w-full h-screen items-center justify-center">
+    <div className="w-full h-full items-center justify-center">
         <div className="flex items-center justify-between">
         
           <div className='flex space-x-4'>
             <ResetButton />
-            <Link href="/bingo">
+            <Link href="/game">
               <Button variant="outline">
                 <Eye />
                 Ver Bingo</Button>
@@ -61,6 +62,7 @@ export function PanelControl() {
           </div>
         </div>
     <PanelBoard drawnNumbers={numbers}/>
+    {/* <BingoBoard drawnNumbers={numbers}/> */}
 
    </div>
   )

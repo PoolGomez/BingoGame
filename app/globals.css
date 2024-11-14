@@ -2,6 +2,160 @@
 @tailwind components;
 @tailwind utilities;
 
+/* css bingo */
+/* USANDO */
+/* .bingo-ball {
+  @apply w-32 h-32 rounded-full relative;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #e0e0e0);
+  box-shadow: 
+    inset -8px -8px 12px rgba(0,0,0,0.2),
+    inset 8px 8px 12px rgba(255,255,255,0.8),
+    4px 4px 8px rgba(0,0,0,0.3);
+} */
+ 
+/* OPCION 2
+.bingo-ball {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.7);
+  background: radial-gradient(circle at 30% 30%, #ffffff, #c0c0c0 40%, #888888 80%);
+  box-shadow:
+    inset -8px -8px 16px #00000066,
+    inset 10px 10px 15px rgba(255, 255, 255, 0.5),
+    0 6px 12px rgba(0, 0, 0, 0.5);
+  border: 1px solid #333;
+  background: white;
+}
+.bingo-ball.blue {
+  background: radial-gradient(circle at 30% 30%, #cce4ff, #007bff);
+}
+
+.bingo-ball.red {
+  background: white;
+}
+
+.bingo-ball.yellow {
+  background: radial-gradient(circle at 30% 30%, #fff0b3, #ffc107);
+}
+
+.bingo-ball.green {
+  background: radial-gradient(circle at 30% 30%, #b3ffb3, #28a745);
+}
+
+.bingo-ball.orange {
+  background: radial-gradient(circle at 30% 30%, #ffd1b3, #fd7e14);
+} */
+
+.bingo-ball {
+  @apply w-56 h-56 rounded-full relative;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #888888 80%);
+  box-shadow:
+    inset -5px -5px 10px rgba(0, 0, 0, 0.4),
+    inset 5px 5px 10px rgba(255, 255, 255, 0.5),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #333;
+}
+
+
+
+
+.empty-ball {
+  background: radial-gradient(circle at 30% 30%, #f0f0f0, #d0d0d0);
+}
+.mini-bingo-ball {
+  @apply w-28 h-28 rounded-full relative;
+
+
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #888888 80%);
+  box-shadow:
+    inset -5px -5px 10px rgba(0, 0, 0, 0.4),
+    inset 5px 5px 10px rgba(255, 255, 255, 0.5),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #333;
+
+  /* background: radial-gradient(circle at 30% 30%, #ffffff, #e0e0e0);
+  box-shadow: 
+    inset -4px -4px 6px rgba(0,0,0,0.2),
+    inset 4px 4px 6px rgba(255,255,255,0.8),
+    2px 2px 4px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease-out; */
+}
+.ball-content {
+  @apply absolute inset-0 flex flex-col items-center justify-center;
+}
+.ball-number {
+  @apply text-9xl font-bold text-black;
+  z-index: 2;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+.ball-number-small {
+  @apply text-6xl font-bold text-black;
+  text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.2);
+}
+
+@keyframes roll {
+  0% {
+    transform: scale(0.2) rotate(-180deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) rotate(180deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
+@keyframes roll-infinite {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes slide-in {
+  0% {
+    transform: translateX(-100px) scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-roll {
+  animation: roll 0.8s ease-out forwards;
+}
+.animate-roll-infinite {
+  animation: roll-infinite 2s linear infinite;
+}
+.animate-slide-in {
+  animation: slide-in 0.5s ease-out forwards;
+}
+
+/* fin css bingo */
+
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -76,3 +230,5 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
