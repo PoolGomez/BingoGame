@@ -31,12 +31,6 @@ Aplicación para proyectar el juego del bingo desde un panel con autorización.
       </a>
     </td>   
     <td align="center">
-      <a href="https://www.prisma.io/">
-      <img src="https://avatars.githubusercontent.com/u/17219288?s=280&v=4" alt="Prisma" width="50" height="50"><br>
-        Prisma
-      </a>
-    </td> 
-    <td align="center">
       <a href="https://firebase.google.com/">
       <img src="https://w7.pngwing.com/pngs/246/288/png-transparent-firebase-hd-logo.png" alt="Firebase" width="50" height="50"><br>
         Firebase
