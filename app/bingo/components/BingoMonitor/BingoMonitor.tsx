@@ -42,8 +42,7 @@ export function BingoMonitor() {
       <div className="hidden p-0 flex-col lg:block h-screen border-0">
         
         <NumberDisplay
-          currentNumber={recent} 
-          isGameComplete={false}
+          currentNumber={recent}
         />
         <PreviousNumbers numbers={numbers} />
       </div>

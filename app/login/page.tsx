@@ -27,12 +27,10 @@ export default function AuthenticationPage() {
       try {
         const user = await loginUseCase.execute(email, password);
         const token = await user.getIdToken();
-        // console.log("[user]",user)
         if(!user){
           toast({
-            title:"Error",
+            title:"❌ Error",
             description:"Credenciales Incorrectas",
-            variant:"destructive"
           })
         }else{
   
@@ -40,10 +38,10 @@ export default function AuthenticationPage() {
   
           router.push("/panel");
           
-          // toast({
-          //   title:"Ok",
-          //   description:"Login Correcto",
-          // })
+          toast({
+            title:"✅ Correcto",
+            description:"Ingreso exitoso",
+          })
         }
         
       } catch (error: unknown) {

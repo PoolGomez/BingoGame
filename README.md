@@ -46,11 +46,11 @@ Aplicación para proyectar el juego del bingo desde un panel con autorización.
 </table>
 
 ## Capturas
-
+![Imagen 1](public/preview/bingo-game-01.png)
 
 ### Control
-![Imagen 1](public/preview/bingo-game-01.png)
+![Imagen 2](public/preview/bingo-game-02.png)
 
 
 ### Visualizador
-![Imagen 1](public/preview/bingo-game-02.png)
+![Imagen 3](public/preview/bingo-game-03.png)

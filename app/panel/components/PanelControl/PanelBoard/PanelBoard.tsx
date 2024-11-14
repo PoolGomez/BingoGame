@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogClose,
@@ -14,7 +13,6 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 
-import { cn } from "@/lib/utils";
 import { CreateNumberBingoUseCase } from "@/src/application/usecases/CreateNumberBingoUseCase";
 import { DeleteNumberBingoUseCase } from "@/src/application/usecases/DeleteNumberBingoUseCase";
 import { NumberBingo } from "@/src/domain/entities/NumberBingo";
@@ -23,16 +21,6 @@ import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 
 export function PanelBoard({ drawnNumbers }: { drawnNumbers: NumberBingo[] }) {
-  const numbers = Array.from({ length: 75 }, (_, i) => i + 1);
-
-  const columns = [
-    { letter: "B", range: [1, 15] },
-    { letter: "I", range: [16, 30] },
-    { letter: "N", range: [31, 45] },
-    { letter: "G", range: [46, 60] },
-    { letter: "O", range: [61, 75] },
-  ];
-
   const numbersPick = drawnNumbers.map((row) => row.number);
 
   const [loading, setLoading] = useState(false);
@@ -50,7 +38,8 @@ export function PanelBoard({ drawnNumbers }: { drawnNumbers: NumberBingo[] }) {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
+      console.log("[error]",error);
+      alert(error)
     }
   };
   const handleSubmitDelete = async (number: number) => {
@@ -64,54 +53,68 @@ export function PanelBoard({ drawnNumbers }: { drawnNumbers: NumberBingo[] }) {
     } catch (error) {
       console.log(error);
       toast({
-        title: "Error",
-        description: "No se pudo restablecer el numero",
-        variant: "destructive",
+        title: "❌ Error",
+        description: "No se pudo restablecer el numero"
       });
     } finally {
       setLoading(false);
       toast({
-        title: "Correcto",
+        title: "✅ Correcto",
         description: "Se restablecio el numero exitosamente",
       });
     }
   };
 
-  const arrayB = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-  const arrayI = [16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
-  const arrayN = [31,32,33,34,35,36,37,38,39,40,41,42,43,44,45];
-  const arrayG = [46,47,48,49,50,51,52,53,54,55,56,57,58,59,60];
-  const arrayO = [61,62,63,64,65,66,67,68,69,70,71,72,73,74,75];
-
   const arrayBingo = [
-    { letter: "B" , color: "bg-red-600", numbers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] },
-    { letter: "I" , color: "bg-yellow-500", numbers: [16,17,18,19,20,21,22,23,24,25,26,27,28,29,30] },
-    { letter: "N" , color: "bg-green-700", numbers: [31,32,33,34,35,36,37,38,39,40,41,42,43,44,45] },
-    { letter: "G" , color: "bg-sky-600", numbers: [46,47,48,49,50,51,52,53,54,55,56,57,58,59,60] },
-    { letter: "O" , color: "bg-purple-600", numbers: [61,62,63,64,65,66,67,68,69,70,71,72,73,74,75] },
-  ]
+    {
+      letter: "B",
+      color: "bg-red-600",
+      numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    },
+    {
+      letter: "I",
+      color: "bg-yellow-500",
+      numbers: [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+    },
+    {
+      letter: "N",
+      color: "bg-green-700",
+      numbers: [31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
+    },
+    {
+      letter: "G",
+      color: "bg-sky-600",
+      numbers: [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
+    },
+    {
+      letter: "O",
+      color: "bg-purple-600",
+      numbers: [61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75],
+    },
+  ];
 
   return (
     <div className="grid grid-cols-5 gap-2 p-2 h-full overflow-auto">
       {arrayBingo.map((bingo, index) => (
         <div key={index} className={`space-y-4 p-2 ${bingo.color} rounded-lg`}>
-          <div className={`text-6xl lg:text-8xl font-bold text-center text-white [text-shadow:_4px_4px_0_rgb(0,0,0)] mb-2 lg:mb-4 `}>
+          <div
+            className={`text-6xl lg:text-8xl font-bold text-center text-white [text-shadow:_4px_4px_0_rgb(0,0,0)] mb-2 lg:mb-4 `}
+          >
             {bingo.letter}
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-6">
-            {bingo.numbers.map((num)=>(
-              
-                numbersPick.includes(num) ? (
-                  
-                  <div
-                    key={num}
-                    className="flex items-center justify-center rounded p-2 bg-white transition-all duration-300 transform "
-                  >
+            {bingo.numbers.map((num) =>
+              numbersPick.includes(num) ? (
+                <div
+                  key={num}
+                  className="flex items-center justify-center rounded p-2 bg-white transition-all duration-300 transform "
+                >
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button
-                        className="h-full w-full text-xl md:text-2xl lg:text-5xl xl:text-7xl font-semibold text-black bg-[url('/images/check2.png')] bg-cover bg-center "
+                        className="h-full w-full text-xl md:text-2xl lg:text-5xl xl:text-7xl font-semibold text-gray-700 bg-[url('/images/check2.png')] bg-cover bg-center "
                         variant={"ghost"}
+                        disabled={loading}
                       >
                         {num}
                       </Button>
@@ -131,9 +134,7 @@ export function PanelBoard({ drawnNumbers }: { drawnNumbers: NumberBingo[] }) {
                         <Button
                           variant="destructive"
                           disabled={loading}
-                          onClick={async () =>
-                            await handleSubmitDelete(num)
-                          }
+                          onClick={async () => await handleSubmitDelete(num)}
                         >
                           {loading && (
                             <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
@@ -150,37 +151,35 @@ export function PanelBoard({ drawnNumbers }: { drawnNumbers: NumberBingo[] }) {
                     </DialogContent>
                   </Dialog>
                 </div>
-                ):(
-                  <div
-                    key={num}
-                    className={
-                      // "h-12 flex items-center justify-center rounded text-2xl font-medium transition-colors bg-muted"
-                      "flex items-center justify-center rounded p-2 bg-white transition-all duration-300 transform"
-                    }
+              ) : (
+                <div
+                  key={num}
+                  className={
+                    // "h-12 flex items-center justify-center rounded text-2xl font-medium transition-colors bg-muted"
+                    "flex items-center justify-center rounded p-2 bg-white transition-all duration-300 transform"
+                  }
+                >
+                  <Button
+                    className="h-full w-full text-xl md:text-2xl lg:text-5xl xl:text-7xl font-semibold text-black"
+                    type="button"
+                    onClick={async () => await handleSubmitCreate(num)}
+                    variant={"ghost"}
+                    disabled={loading}
                   >
-                    <Button
-                      className="h-full w-full text-xl md:text-2xl lg:text-5xl xl:text-7xl font-semibold text-black"
-                      type="button"
-                      onClick={async () => await handleSubmitCreate(num)}
-                      variant={"ghost"}
-                      disabled={loading}
-                    >
-                      {num}
-                    </Button>
-                  </div>
-                )
-            )
+                    {num}
+                  </Button>
+                </div>
+              )
             )}
           </div>
         </div>
       ))}
-
     </div>
   );
 }
 
-
-{/* <Card className="p-1 w-full h-auto flex items-center justify-center">
+{
+  /* <Card className="p-1 w-full h-auto flex items-center justify-center">
       <div className="grid grid-cols-5 gap-1 w-full max-w-4xl h-auto">
         {columns.map(({ letter, range }) => (
           <div key={letter} className="space-y-1 h-auto">
@@ -264,4 +263,5 @@ export function PanelBoard({ drawnNumbers }: { drawnNumbers: NumberBingo[] }) {
           </div>
         ))}
       </div>
-    </Card> */}
+    </Card> */
+}

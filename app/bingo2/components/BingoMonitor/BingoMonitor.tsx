@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { NumberDisplay } from './NumberDisplay';
 import { PreviousNumbers } from './PreviousNumbers';
@@ -16,11 +16,11 @@ export function BingoMonitor() {
     const [numbers, setNumbers] = useState<NumberBingo[]>([]);
   const [recent, setRecent] = useState<number | null>(null);
 
-  const numbersRepository = new FirebaseNumberBingoRepository();
-    const subscribeToNumbersUseCase = new SubscribeToNumbersUseCase(numbersRepository);
+  
 
   useEffect(()=>{
-    
+    const numbersRepository = new FirebaseNumberBingoRepository();
+    const subscribeToNumbersUseCase = new SubscribeToNumbersUseCase(numbersRepository);
 
     const unsubscribe = subscribeToNumbersUseCase.execute((numbersList)=>{
       setRecent(null)
@@ -62,8 +62,7 @@ export function BingoMonitor() {
           <div className="bg-gray-200 backdrop-blur-lg rounded-xl p-6 shadow-2xl flex flex-col items-center">
             <h2 className="text-2xl font-semibold text-black mb-4">Número actual</h2>
             <NumberDisplay
-              currentNumber={recent} 
-              isGameComplete={false}
+              currentNumber={recent}
             />
           </div>
 

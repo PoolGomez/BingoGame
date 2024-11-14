@@ -14,16 +14,15 @@ export function ResetButton() {
     try {
       await deleteCollectionUseCase.execute();
       toast({
-        title: "OK",
+        title: "✅ Correcto",
         description: "Juego Reiniciado",
-        variant: "destructive",
       });
     } catch (error) {
       console.error("Error:", error);
       toast({
-        title: "ERROR",
+        title: "❌ Error",
         description: "No se pudo reiniciar el juego... " + error,
-        variant: "destructive",
+        
       });
     } finally {
       setLoading(false);
@@ -36,6 +35,7 @@ export function ResetButton() {
         onClick={handleDeleteCollection}
         disabled={loading}
         variant="outline"
+        className="text-lg"
       >
         <RotateCcw />
         {loading ? "Reiniciando..." : "Reiniciar"}

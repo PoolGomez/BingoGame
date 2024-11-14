@@ -18,7 +18,7 @@ export function LogoutButton() {
     }
 
   return (
-    <Button type="button" onClick={handleLogout} variant="ghost">
+    <Button type="button" className="text-lg w-full items-center justify-start" onClick={handleLogout} variant="ghost">
       <LogOut />
     Cerrar Sesión
     </Button>

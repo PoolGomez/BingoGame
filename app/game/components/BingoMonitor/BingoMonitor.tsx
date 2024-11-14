@@ -16,12 +16,12 @@ export function BingoMonitor() {
     const [numbers, setNumbers] = useState<NumberBingo[]>([]);
   const [recent, setRecent] = useState<number | null>(null);
 
-  const numbersRepository = new FirebaseNumberBingoRepository();
-    const subscribeToNumbersUseCase = new SubscribeToNumbersUseCase(numbersRepository);
+  
 
   useEffect(()=>{
     
-
+    const numbersRepository = new FirebaseNumberBingoRepository();
+    const subscribeToNumbersUseCase = new SubscribeToNumbersUseCase(numbersRepository);
     const unsubscribe = subscribeToNumbersUseCase.execute((numbersList)=>{
       setRecent(null)
       setTimeout(() => {
@@ -63,7 +63,6 @@ export function BingoMonitor() {
             <h2 className="text-2xl font-semibold text-black mb-4">Número actual</h2>
             <NumberDisplay
               currentNumber={recent} 
-              isGameComplete={false}
             />
           </div>
 

@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 interface NumberDisplayProps {
   currentNumber: number | null;
-  isGameComplete: boolean;
 }
 
 // const getBorderColor = (number: number) => {
@@ -18,8 +17,7 @@ interface NumberDisplayProps {
 // };
 
 export function NumberDisplay({
-  currentNumber,
-  isGameComplete,
+  currentNumber
 }: NumberDisplayProps) {
   const[number ,setNumber] = useState<number | null>(null);
 
