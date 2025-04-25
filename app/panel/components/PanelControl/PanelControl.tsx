@@ -21,6 +21,7 @@ export function PanelControl() {
       );
 
       const unsubscribe = subscribeToNumbersUseCase.execute((numbersList) => {
+        console.log("numbersList",numbersList)
         setNumbers(numbersList);
       });
       return () => unsubscribe();

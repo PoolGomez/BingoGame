@@ -12,7 +12,9 @@ import { useUser } from "@/src/infrastructure/hooks/useUser";
 import { LoaderCircle } from "lucide-react";
 
 export function DropDownMenuUser() {
+
   const user = useUser();
+
   if (!user) {
     return (
       <Avatar className="h-10 w-10 rounded-lg">
@@ -23,6 +25,7 @@ export function DropDownMenuUser() {
       </Avatar>
     );
   }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -54,4 +57,5 @@ export function DropDownMenuUser() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
+  
 }

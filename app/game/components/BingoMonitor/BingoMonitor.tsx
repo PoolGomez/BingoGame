@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { NumberDisplay } from './NumberDisplay';
 import { PreviousNumbers } from './PreviousNumbers';
@@ -8,15 +8,10 @@ import { FirebaseNumberBingoRepository } from '@/src/infrastructure/repositories
 import { SubscribeToNumbersUseCase } from '@/src/application/usecases/SubscribeToNumbersUseCase';
 import { NumberBingo } from '@/src/domain/entities/NumberBingo';
 
-
-
-
 export function BingoMonitor() {
 
-    const [numbers, setNumbers] = useState<NumberBingo[]>([]);
+  const [numbers, setNumbers] = useState<NumberBingo[]>([]);
   const [recent, setRecent] = useState<number | null>(null);
-
-  
 
   useEffect(()=>{
     
@@ -27,7 +22,7 @@ export function BingoMonitor() {
       setTimeout(() => {
         play();
         setNumbers(numbersList);
-        setRecent(numbersList[0]?.number || null);
+        setRecent(numbersList[0].number || null);
       },2500);
       
     })
@@ -46,29 +41,29 @@ export function BingoMonitor() {
 
   return (
 
-    <div className="h-full bg-white p-2 lg:p-2 xl:p-2">
-      <div className="max-w-8xl mx-auto space-y-2">
+    <div className="h-full bg-white p-2">
+      <div className="max-w-8xl mx-auto">
 
         {/* Bingo Board */}
-        <div className="rounded-xl px-4 py-6 w-full h-[70%] bg-gray-200" >
+        <div className="rounded-xl px-0 py-0 w-full h-[70%] bg-gray-200" >
           <BingoBoard drawnNumbers={numbers} />
         </div>
 
         {/* Control Panel */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full h-[30%] " >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full h-[30%] " >
           
 
           {/* Current Number */}
-          <div className="bg-gray-200 backdrop-blur-lg rounded-xl p-6 shadow-2xl flex flex-col items-center">
-            <h2 className="text-2xl font-semibold text-black mb-4">Número actual</h2>
+          <div className="bg-gray-200 backdrop-blur-lg rounded-xl p-2 shadow-2xl flex flex-col items-center">
+            <h2 className="text-6xl font-semibold text-black mb-4">NÚMERO ACTUAL</h2>
             <NumberDisplay
-              currentNumber={recent} 
+              currentNumber={recent}
             />
           </div>
 
           {/* Last Numbers */}
-          <div className="bg-gray-200 backdrop-blur-lg rounded-xl p-6 shadow-2xl">
-            <h2 className="text-2xl font-semibold text-black mb-8 mt-8">Ultimos números</h2>
+          <div className="bg-gray-200 backdrop-blur-lg rounded-xl p-6 shadow-2xl hidden lg:block">
+            <h2 className="text-6xl font-semibold text-black mb-4 mt-4 text-center">ÚLTIMOS NÚMEROS</h2>
             <PreviousNumbers numbers={numbers} />
             
           </div>

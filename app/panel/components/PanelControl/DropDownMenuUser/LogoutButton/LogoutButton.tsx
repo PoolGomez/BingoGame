@@ -3,6 +3,7 @@ import { LogoutUseCase } from "@/src/application/usecases/LogoutUseCase";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
 
 export function LogoutButton() {
     const router = useRouter();
@@ -19,8 +20,15 @@ export function LogoutButton() {
 
   return (
     <Button type="button" className="text-lg w-full items-center justify-start" onClick={handleLogout} variant="ghost">
-      <LogOut />
-    Cerrar Sesión
+      <Suspense fallback={<Loading />}>
+            <LogOut />
+            Cerrar Sesión
+      </Suspense>
+      
     </Button>
   )
+}
+
+function Loading() {
+  return <h2>🌀 Loading...</h2>;
 }

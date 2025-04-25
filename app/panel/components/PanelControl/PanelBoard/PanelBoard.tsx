@@ -37,6 +37,7 @@ export function PanelBoard({ drawnNumbers }: { drawnNumbers: NumberBingo[] }) {
       if (result) {
         setLoading(false);
       }
+      console.log("numbersPick:",numbersPick)
     } catch (error) {
       console.log("[error]",error);
       alert(error)

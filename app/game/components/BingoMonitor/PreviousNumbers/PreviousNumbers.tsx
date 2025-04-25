@@ -1,5 +1,6 @@
 "use client"
 
+import { numeroAletraBingo } from "@/lib/utils";
 // import { Card } from "@/components/ui/card";
 // import { ScrollArea } from "@/components/ui/scroll-area";
 // import { AnimatedRecentNumbers } from "./AnimatedRecentNumbers";
@@ -12,15 +13,15 @@ export function PreviousNumbers({ numbers }: {numbers:NumberBingo[]}) {
 
   return (
 
-    <div className="grid grid-cols-6 gap-3">
-      {numeros.slice(0, 6).map((num, index) => (
+    <div className="grid grid-cols-3 gap-3">
+      {numeros.slice(0, 3).map((num, index) => (
         <div
           key={num}
           className={`mini-bingo-ball ${index === 0 ? 'animate-slide-in' : ''}`}
           
         >
-          <div className="ball-content">
-            {/* <span className="ball-letter-small">{getLetter(num)}</span> */}
+          <div className="ball-content-small">
+            <span className="ball-letter-small">{numeroAletraBingo(num)}</span>
             <span className="ball-number-small">{num}</span>
           </div>
         </div>
