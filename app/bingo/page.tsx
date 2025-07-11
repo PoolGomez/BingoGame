@@ -38,7 +38,7 @@ function BingoPage() {
       setCalledNumbers(prev => [...prev, drawnNumber]);
       setLastNumber(drawnNumber);
       setIsDrawing(false);
-    }, 1000);
+    }, 3000);
   };
 
   // Función para reiniciar juego
@@ -172,7 +172,7 @@ function BingoPage() {
               <CardContent className="text-center">
                 {isDrawing ? (
                   <div className="flex flex-col items-center space-y-4">
-                    <div className="animate-spin rounded-full w-36 h-36 border-4 border-blue-500 border-t-transparent">
+                    <div className="animate-spin rounded-full w-48 h-48 border-4 border-blue-500 border-t-transparent">
                     </div>
                     {/* <p className="text-slate-500 absolute transform -translate-x-0">Sacando bolilla...</p> */}
                     
@@ -190,7 +190,7 @@ function BingoPage() {
                   </div>
                 ) : (
                   <div className="flex flex-col items-center space-y-4">
-                    <div className="w-36 h-36 rounded-full border-4 border-dashed border-slate-300 flex items-center justify-center">
+                    <div className="w-48 h-48 rounded-full border-4 border-dashed border-slate-300 flex items-center justify-center">
                       <Hash className="w-8 h-8 text-slate-400" />
                     </div>
                     <p className="text-slate-500">Sacar Bolilla</p>
@@ -236,7 +236,7 @@ function BingoPage() {
 
                       {/* Indicador de "Último" */}
                       {index === 0 && (
-                        <div className="absolute top-12 left-1/2 transform -translate-x-1/2 pt-12">
+                        <div className="absolute top-16 left-1/2 transform -translate-x-1/2 pt-20">
                           <Badge className="bg-green-500 text-white text-xs px-2 py-1">
                             Último
                           </Badge>
