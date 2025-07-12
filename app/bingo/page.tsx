@@ -3,8 +3,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Clock, Hash, RotateCcw, Shuffle, Trophy } from "lucide-react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { CircleHelp, Clock, RotateCcw, Shuffle, Trophy } from "lucide-react";
 import { useState } from "react";
+import BingoCard from "./BingoCard";
 
 function BingoPage() {
    const [calledNumbers, setCalledNumbers] = useState<number[]>([]);
@@ -22,6 +24,10 @@ function BingoPage() {
 
   // Obtener los últimos 5 números llamados
   const recentNumbers = calledNumbers.slice(-5).reverse();
+
+  const [selectedCells, setSelectedCells] = useState<boolean[][]>(
+    Array(5).fill(null).map(() => Array(5).fill(false))
+  );
 
   // Función para sacar bolilla
   const drawNumber = () => {
@@ -50,13 +56,13 @@ function BingoPage() {
   };
 
   // Función para obtener la letra de columna
-//   const getColumnLetter = (number: number): string => {
-//     if (number <= 15) return 'B';
-//     if (number <= 30) return 'I';
-//     if (number <= 45) return 'N';
-//     if (number <= 60) return 'G';
-//     return 'O';
-//   };
+  const getColumnLetter = (number: number): string => {
+    if (number <= 15) return 'B';
+    if (number <= 30) return 'I';
+    if (number <= 45) return 'N';
+    if (number <= 60) return 'G';
+    return 'O';
+  };
 
   // Función para obtener el color de la columna
 //   const getColumnColor = (number: number): string => {
@@ -69,10 +75,10 @@ function BingoPage() {
 
   // Función para obtener el color de fondo de la columna
   const getColumnBgColor = (number: number): string => {
-    if (number <= 15) return 'bg-red-500';
-    if (number <= 30) return 'bg-blue-500';
-    if (number <= 45) return 'bg-green-500';
-    if (number <= 60) return 'bg-yellow-500';
+    if (number <= 15) return 'bg-red-400';
+    if (number <= 30) return 'bg-blue-400';
+    if (number <= 45) return 'bg-green-300';
+    if (number <= 60) return 'bg-yellow-200';
     return 'bg-purple-500';
   };
   const ChangeShowAll = () => {
@@ -84,8 +90,8 @@ function BingoPage() {
       <div className="max-w-8xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">
-            Tablero de Bingo
+          <h1 className="text-8xl font-bold text-slate-900 mb-2">
+            TABLERO
           </h1>
           {/* <p className="text-slate-600">Bingo de 75 números - B-I-N-G-O</p> */}
         </div>
@@ -111,12 +117,12 @@ function BingoPage() {
                   return (
                     <div key={letter} className="flex items-center space-x-2">
                       {/* Letra de la columna */}
-                      <div className={`w-32 h-32 rounded-lg font-bold text-8xl text-white flex items-center justify-center flex-shrink-0 ${
+                      <div className={`w-36 h-36 rounded-lg font-bold text-8xl text-white flex items-center justify-center flex-shrink-0 ${
                         letterIndex === 0 ? 'bg-red-500' :
                         letterIndex === 1 ? 'bg-blue-500' :
                         letterIndex === 2 ? 'bg-green-500' :
                         letterIndex === 3 ? 'bg-yellow-500' :
-                        'bg-purple-500'
+                        'bg-purple-300'
                       }`}>
                         {letter}
                       </div>
@@ -172,14 +178,20 @@ function BingoPage() {
               <CardContent className="text-center">
                 {isDrawing ? (
                   <div className="flex flex-col items-center space-y-4">
-                    <div className="animate-spin rounded-full w-48 h-48 border-4 border-blue-500 border-t-transparent">
+                    <div className="animate-spin rounded-full w-72 h-72 border-4 border-blue-500 border-t-transparent">
                     </div>
                     {/* <p className="text-slate-500 absolute transform -translate-x-0">Sacando bolilla...</p> */}
                     
                   </div>
                 ) : lastNumber ? (
                   <div className="space-y-4">
-                    <div className={`inline-flex items-center justify-center w-48 h-48 rounded-full border-4 text-[7rem] font-bold ${ getColumnBgColor(lastNumber)}`}>
+                    
+                    {/* <div className={`inline-flex items-center justify-center w-72 h-72 rounded-full border-4 text-[10rem] font-bold ${ getColumnBgColor(lastNumber)}`}>
+                      
+                      {lastNumber}
+                    </div> */}
+                    <div className={`relative inline-flex items-center justify-center w-72 h-72 rounded-full border-4 text-[10rem] font-bold ${ getColumnBgColor(lastNumber)}`}>
+                      <span className="absolute top-0 text-[4rem] font-bold">{getColumnLetter(lastNumber)}</span>
                       {lastNumber}
                     </div>
                     {/* <div className="text-center">
@@ -190,10 +202,12 @@ function BingoPage() {
                   </div>
                 ) : (
                   <div className="flex flex-col items-center space-y-4">
-                    <div className="w-48 h-48 rounded-full border-4 border-dashed border-slate-300 flex items-center justify-center">
-                      <Hash className="w-8 h-8 text-slate-400" />
-                    </div>
-                    <p className="text-slate-500">Sacar Bolilla</p>
+                    {/* <div className="w-48 h-48 rounded-full border-4 border-dashed border-slate-300 flex items-center justify-center"> */}
+                      {/* <Hash className="w-8 h-8 text-slate-400" /> */}
+                      <CircleHelp className="w-72 h-72 text-slate-400" />
+                      
+                    {/* </div> */}
+                    {/* <p className="text-slate-500">Sacar Bolilla</p> */}
                   </div>
                 )}
               </CardContent>
@@ -270,6 +284,31 @@ function BingoPage() {
             <Card className="bg-white shadow-lg border-0">
               <CardContent className="p-6">
                 <div className="space-y-4">
+
+                  {isDrawing ? (
+                    <div className="text-center">
+                      <Badge variant="outline" className="text-2xl px-4 py-2">
+                        {/* {getColumnLetter(lastNumber)}-{lastNumber} */}
+                        drawing
+                      </Badge>
+                    </div>
+                  ): lastNumber ? (
+                    <div className="text-center">
+                      <Badge variant="outline" className="text-2xl px-4 py-2">
+                        {getColumnLetter(lastNumber)}-{lastNumber}
+                      </Badge>
+                    </div>
+                  ):(
+                    <div className="text-center">
+                      <Badge variant="outline" className="text-2xl px-4 py-2">
+                        ?
+                      </Badge>
+                    </div>
+                  )}
+
+              
+
+
                   <Button 
                     onClick={drawNumber}
                     disabled={availableNumbers.length === 0 || isDrawing}
@@ -293,6 +332,26 @@ function BingoPage() {
                     variant="outline" className="w-full py-6 text-lg font-semibold border-2 hover:bg-slate-50 transition-all duration-200">
                         Mostrar Números
                     </Button>
+                    
+
+                    <Dialog>
+                      <DialogTrigger>
+                        <Button variant="outline" className="w-full py-6 text-lg font-semibold border-2 hover:bg-slate-50 transition-all duration-200">
+                          Mostrar Patrón
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-6xl">
+                        {/* <DialogHeader> */}
+                          {/* <DialogTitle>Are you absolutely sure?</DialogTitle> */}
+                          {/* <DialogDescription>
+                            
+                          </DialogDescription>
+                          
+                        </DialogHeader> */}
+                        <BingoCard selectedCells={selectedCells}
+          setSelectedCells={setSelectedCells} />
+                      </DialogContent>
+                    </Dialog>
                   </div>
                   
                   
